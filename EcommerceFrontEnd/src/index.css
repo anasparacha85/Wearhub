@@ -1,0 +1,10 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+#hello{
+    background-image: url('https://bonanzasatrangi.com/cdn/shop/files/Web-Banner-1920-x-860_3198589c-1643-440f-8abb-e2fe81ebd273_2048x.jpg?v=1733983666');
+background-repeat: no-repeat;
+background-size: contain;
+
+
+}
