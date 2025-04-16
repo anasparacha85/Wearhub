@@ -4,7 +4,7 @@ import { useAuth } from "../Store/Auth";
 import Card from "../Components/Card";
 import { ClipLoader } from "react-spinners";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchProductById ,fetchProductByBrandName} from "../Slices/ProductSlice";
+import { fetchProductById ,fetchProductByBrandName, base_URL} from "../Slices/ProductSlice";
 import { toast } from "react-toastify";
 
 
@@ -12,7 +12,7 @@ const ProductsDetail = () => {
   const [quantity, setQuantity] = useState(1);
   const [selectedSize, setSelectedSize] = useState("10");
   
-  const {base_URL,jwttoken }=useAuth()
+
  
   const [productsbybrandname, setproductsbybrandname] = useState([])
   const params=useParams()
@@ -225,7 +225,7 @@ useEffect(()=>{
         {/* You May Also Like Section */}
         <div className="mt-12">
           <h2 className="text-2xl font-bold mb-4">You May Also Like</h2>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <div className="md:grid md:grid-cols-4 flex flex-col">
             {ProductByBrand
               .map((products, idx) => (
                 <Card key={products._id} image={products.bigimage} price={products.price}category={products.Category} title={products.name} id={products._id}/>
