@@ -2,12 +2,34 @@ import React from "react";
 import Aos from "aos";
 import { useEffect } from "react";
 import 'aos/dist/aos.css'
-const Card = ({ image, title, price, category ,sizes= ["XL", "L", "M", "S", "XS"],colors= ["#000000", "#008000", "#FF0000", "#FFFFFF"] }) => {
-  
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../Store/Auth";
+import { useSelector } from "react-redux";
+
+const Card = ({ image, title, price, category ,sizes= ["XL", "L", "M", "S", "XS"],colors= ["#000000", "#008000", "#FF0000", "#FFFFFF"],id }) => {
+  const navigate=useNavigate()
+   const {isAdminSignupOpen,isSignupOpen,isloginopen,setSignupOpen,setisAdminSignupOpen,setisloginopen,jwttoken}=useAuth()
+   const JwtToken=useSelector((state)=>state.auth.JwtToken)
+   
+   
    colors= ["#000000", "#008000", "#FF0000", "#FFFFFF"]
   useEffect(()=>{
     Aos.init()
   },[])
+
+  
+  const onclick=() =>{
+   
+      if(!JwtToken){
+        setisloginopen(true)
+      }
+      else{
+      navigate(`/productsdetail/${id}`, {state:{from:window.location.pathname}})
+      }
+
+    
+  }
+ 
   return (
     <div className="bg-gray-950 rounded-lg shadow-md p-4 max-w-sm" data-aos="zoom-in-left  " data-aos-duration="3000" >
       <img
@@ -32,15 +54,9 @@ const Card = ({ image, title, price, category ,sizes= ["XL", "L", "M", "S", "XS"
         ))}
       </div>
 
-      {/* Colors */}
+      {/* Add to Cart */}
       <div className="flex gap-3 mt-3">
-        {colors.map((color) => (
-          <div
-            key={color}
-            className={`w-6 h-6 rounded-full cursor-pointer`}
-            style={{ backgroundColor: color }}
-          ></div>
-        ))}
+        <button className="text-gray-100 bg-red-700 py-2 px-4 rounded-[30px]  hover:bg-red-600 cursor-pointer" onClick={onclick}>Add to Cart</button>
       </div>
     </div>
   );

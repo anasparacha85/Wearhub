@@ -19,10 +19,13 @@ const SignupSchema=new mongoose.Schema({
         require:true
 
     },
-    isAdmin:{
-        type:Boolean,
-        default:false
+    role:{
+        type:String,
+        enum:["User","Admin"],
+
+        default:'User',
     },
+
     otp:{
         type:Number,
         require:true
@@ -46,7 +49,7 @@ SignupSchema.methods.generateToken=async function(){
         return jwt.sign({
             userId:this._id.toString(),
             email:this.email,
-            isAdmin:this.isAdmin
+            role:this.role
         },process.env.JWT_SECRET_KEY,{
             expiresIn:'30d'
         })

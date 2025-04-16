@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react'
-import ImageSlider from './ImageSlider'
-import Card from './Card';
+import ImageSlider from '../Components/ImageSlider'
+import Card from '../Components/Card';
 import Aos from 'aos';
 import 'aos/dist/aos.css';
 import { Link } from 'react-router-dom';
-import Shopees from './Shopees';
-import Dsc from './Dsc';
+import Shopees from '../Components/Shopees';
+import Dsc from '../Components/Dsc';
 import mancamera from '../../public/mancamera.jpg'
 export const Home = () => {
   const image='https://www.gulahmedshop.com/media/wysiwyg/2024/01_banners/11_19/2024_11_19_salt_wb.jpg';
@@ -55,7 +55,7 @@ const fetchpopular=()=>{
     <div>
         <ImageSlider />
       
-    <div id='hello' className=' h-[730px] w-screen flex justify-between ' data-aos="flip-up"
+    <div id='hello' className=' h-[730px] w-screen flex justify-between ' data-aos="flip-up " style={{backgroundImage:image}}
      data-aos-easing="ease-out-cubic"
      data-aos-duration="2000">
      <u className='ml-28 mt-20'><Link className='text-gray-200 font-serif text-[20px] 'to='#'>Mens Collection</Link></u> 
@@ -66,15 +66,18 @@ const fetchpopular=()=>{
      data-aos-easing="ease-out-cubic"
      data-aos-duration="2000">
   {/* YouTube Iframe */}
+ 
   <iframe
-    className="absolute top-0 left-0 w-full h-full object-cover pointer-events-none"
-    src="https://www.youtube.com/embed/HtzCMTiG5aM?autoplay=1&mute=1&loop=1&playlist=HtzCMTiG5aM&controls=0&showinfo=0&modestbranding=1&rel=0"
-    title="YouTube Background Video"
-    frameBorder="0"
-    allow="autoplay; fullscreen; encrypted-media"
-    referrerPolicy="strict-origin-when-cross-origin"
-    allowFullScreen
-  ></iframe>
+  className="absolute top-0 left-0 w-full h-full object-cover"
+  src="https://www.youtube.com/embed/B3dP9zRjVtw?si=AComCf4QxxfqJXUt&autoplay=1&mute=1"
+  title="YouTube Background Video"
+  frameBorder="0"
+  allow="autoplay; fullscreen; encrypted-media"
+  referrerPolicy="strict-origin-when-cross-origin"
+  allowFullScreen
+></iframe>
+
+   
 </div>
 
     <section className="p-10">

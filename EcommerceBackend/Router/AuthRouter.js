@@ -1,8 +1,9 @@
 const express=require('express');
 const router=express.Router();
-const {signup,login,sendotp}=require('../Controller/AuthController')
-router.route('/Signup').post(signup)
+const {usersignup,login,AdminSignup}=require('../Controller/AuthController')
+router.route('/User/Signup').post(usersignup)
 router.route('/login').post(login)
-router.route('/ForgetPassword').post(sendotp);
+router.route('/Admin/Signup').post(AdminSignup)
+
 
 module.exports=router

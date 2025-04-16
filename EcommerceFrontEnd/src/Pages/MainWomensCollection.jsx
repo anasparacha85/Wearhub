@@ -1,32 +1,25 @@
 import React from 'react'
 import { useState,useEffect } from 'react'
-import Card from './Card'
+import Card from '../Components/Card'
 import { ClipLoader } from 'react-spinners'
+import { useAuth } from '../Store/Auth'
+import { useDispatch, useSelector } from 'react-redux'
+import { fetchwommensCollection } from '../Slices/ProductSlice'
 
 const MainWomensColection = () => {
-  const [isLoading, setisLoading] = useState(false)
-    const [womens, setwomens] = useState([])
-    const fetchwommensCollection=()=>{
-      setisLoading(true)
-        fetch('http://localhost:5000/api/Shop/womens',{
-            method:'GET'
-        }).then((res)=>{
-            return res.json()
-        }).then((data)=>{
-setwomens(data)
-        }).catch((error)=>{
-            console.log(error);
-            
-        }).finally(()=>{
-          setisLoading(false)
-        })
-        
-    }
+  const dispatch=useDispatch()
+   const productsState = useSelector((state) => state.products );
+   
+     const { products, isLoading, error } = productsState;
+
+  const reduxState = useSelector((state) => state);
+  console.log("Redux State:", reduxState);
     useEffect(() => {
-      fetchwommensCollection()
+      dispatch(fetchwommensCollection())
     
       
-    }, [])
+    }, [dispatch])
+ 
     
   return (
     <div className=" min-h-screen p-6">
@@ -39,8 +32,8 @@ setwomens(data)
     {/* Product Grid */}
     {isLoading?(<div className='flex justify-center items-center mt-40'><ClipLoader color="white" loading={isLoading} size={50} /></div> ):(
     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
-      {womens.map((items) => (
-        <Card key={items._id} title={items.name}  category={items.Category} price={items.price} image={items.bigimage}/>
+      {products.map((items) => (
+        <Card key={items._id} title={items.name} id={items._id}  category={items.Category} price={items.price} image={items.bigimage}/>
       ))}
     </div>)}
   </div>

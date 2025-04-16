@@ -1,20 +1,33 @@
-import React, { useState } from 'react';
-import Shopdashboardcover from '../../public/Shopdashboard cover.jpg'
-import { Navigate, Outlet } from 'react-router-dom';
-import { useNavigate } from 'react-router-dom';
-import { NavLink } from 'react-router-dom';
-
-
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import Mainshop from "./Mainshop"; // Ensure this is correctly imported
+import { useAuth } from "../Store/Auth";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchproduct } from "../Slices/ProductSlice";
 const ShopDashboard = () => {
   const [priceRange, setPriceRange] = useState([25, 590]);
-  const [selectedItem, setSelectedItem] = useState('');
-  const navigate = useNavigate();
+ 
 
+  const [selecteditem, setselecteditem] = useState(""); // Now stores selected brand as a string
+  const dispatch=useDispatch()
+ const {products,isLoading,error}=useSelector((state)=>state.products)
+
+  // Function to handle radio button selection
   const onchange = (e) => {
-    const value = e.target.value;
-    setSelectedItem(value);
-    navigate(`/Shop/${value}`); // Navigate to the specific route
+    setselecteditem(e.target.value); // Store the selected brand name
   };
+    // Fetch products on component mount
+    useEffect(() => {
+      dispatch(fetchproduct());
+    }, [dispatch]);
+
+  // Fetch all products from API
+  
+
+  // Filter products based on selected brand
+  const filteredprodocust = products.filter(
+    (product) => selecteditem === "" || product.brand === selecteditem
+  );
 
   return (
     <div>
@@ -22,9 +35,10 @@ const ShopDashboard = () => {
       <div
         className="h-[350px] ml-14 mr-14 flex items-center justify-center"
         style={{
-          backgroundImage: 'url("https://img.freepik.com/free-vector/abstract-dark-sales-background_52683-31614.jpg")',
-          backgroundRepeat: 'no-repeat',
-          backgroundSize: '100% 100%',
+          backgroundImage:
+            'url("https://img.freepik.com/free-vector/abstract-dark-sales-background_52683-31614.jpg")',
+          backgroundRepeat: "no-repeat",
+          backgroundSize: "100% 100%",
         }}
       >
         <h1 className="text-[30px] text-gray-300 font-bold">Shop Dashboard</h1>
@@ -34,40 +48,33 @@ const ShopDashboard = () => {
         {/* Sidebar */}
         <aside className="w-full md:w-1/4 p-4 border-r">
           <h2 className="text-2xl font-bold mb-4 text-gray-300">SHOP</h2>
-          <button className="text-sm text-blue-500 mb-4">Clear All</button>
+          <button
+            className="text-sm text-blue-500 mb-4"
+            onClick={() => setselecteditem("")} // Clear filter
+          >
+            Clear All
+          </button>
 
+          {/* Filter by Brands */}
           <div className="mb-6">
             <h3 className="font-bold mb-2 text-gray-200">FILTER BY BRANDS</h3>
             <ul>
-              <li className="text-gray-400">
-                <input
-                  type="radio"
-                  value="Saya"
-                  checked={selectedItem === 'Saya'}
-                  onChange={onchange}
-                />{' '}
-                Saya
-              </li>
-              <li className="text-gray-400">
-                <input
-                  type="radio"
-                  value="Bonanza"
-                  checked={selectedItem === 'Bonanza'}
-                  onChange={onchange}
-                />{' '}
-                Bonanza
-              </li>
-              <li className='text-gray-400'>
-                <input type="radio" value="Khaadi" checked={selectedItem==="Khaadi"} onChange={onchange} />
-                {' '}Khaadi
-              </li>
-              <li className='text-gray-400'>
-                <input type="radio" value="j." checked={selectedItem==="j."} onChange={onchange} />
-                {' '}J.
-              </li>
+              {["Saya", "Bonanza", "Khaadi", "j."].map((brand) => (
+                <li key={brand} className="text-gray-400">
+                  <input
+                    name="brand"
+                    type="radio"
+                    value={brand}
+                    checked={selecteditem === brand}
+                    onChange={onchange}
+                  />{" "}
+                  {brand}
+                </li>
+              ))}
             </ul>
           </div>
 
+          {/* Filter by Size */}
           <div className="mb-6">
             <h3 className="font-bold mb-2 text-gray-300">SIZE</h3>
             <ul>
@@ -80,6 +87,7 @@ const ShopDashboard = () => {
             </ul>
           </div>
 
+          {/* Filter by Color */}
           <div className="mb-6">
             <h3 className="font-bold mb-2 text-gray-300">COLOR</h3>
             <ul>
@@ -92,6 +100,7 @@ const ShopDashboard = () => {
             </ul>
           </div>
 
+          {/* Price Filter */}
           <div className="mb-6">
             <h3 className="font-bold mb-2 text-gray-300">PRICE</h3>
             <input
@@ -111,7 +120,7 @@ const ShopDashboard = () => {
         {/* Product Grid */}
         <main className="w-full md:w-3/4 p-4">
           <div className="flex justify-between items-center mb-4 text-white">
-            <p>Showing 1–9 of 108 results</p>
+            <p>Showing {filteredprodocust.length +"  " } products</p>
             <select className="border rounded p-2 bg-black text-white">
               <option>Default</option>
               <option>Price: Low to High</option>
@@ -119,8 +128,15 @@ const ShopDashboard = () => {
             </select>
           </div>
 
-          {/* Outlet for Rendered Routes */}
-          <Outlet />
+          {/* Render Products */}
+          <Mainshop
+            productss={filteredprodocust}
+            isLoading={isLoading}
+           
+            selecteditem={selecteditem}
+            setselecteditem={setselecteditem}
+           
+          />
         </main>
       </div>
     </div>

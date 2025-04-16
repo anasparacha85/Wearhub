@@ -1,31 +1,23 @@
 import React from 'react'
 import { useState,useEffect } from 'react'
-import Card from './Card'
+import Card from '../Components/Card'
 import { ClipLoader } from 'react-spinners'
+import { useAuth } from '../Store/Auth'
+import { useDispatch, useSelector } from 'react-redux'
+import { fetchmensCollection } from '../Slices/ProductSlice'
 const MainmensColection = () => {
-  const [isLoading, setisLoading] = useState(false)
-    const [mens, setmens] = useState([])
-    const fetchmensCollection=()=>{
-      setisLoading(true)
-        fetch('http://localhost:5000/api/Shop/mens',{
-            method:'GET'
-        }).then((res)=>{
-            return res.json()
-        }).then((data)=>{
-setmens(data)
-        }).catch((error)=>{
-            console.log(error);
-            
-        }).finally(()=>{
-          setisLoading(false)
-        })
-    }
-    useEffect(() => {
-      fetchmensCollection()
-    
-      
-    }, [])
-    
+ 
+  const dispatch = useDispatch();
+  const productsState = useSelector((state) => state.products );
+
+  const { products, isLoading, error } = productsState;
+  
+  const reduxState = useSelector((state) => state);
+  console.log("Redux State:", reduxState);
+  
+  useEffect(() => {
+    dispatch(fetchmensCollection());
+  }, [dispatch]);
   return (
     <div className=" min-h-screen p-6">
     {/* Header */}
@@ -37,8 +29,8 @@ setmens(data)
     {/* Product Grid */}
     {isLoading?(<div className='flex justify-center items-center mt-40'><ClipLoader color='white' size={50} loading={isLoading}/></div>): (
     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
-      {mens.map((items) => (
-        <Card key={items._id} title={items.name}  category={items.Category} price={items.price} image={items.bigimage}/>
+      {products.map((items) => (
+        <Card key={items._id} title={items.name} id={items._id}  category={items.Category} price={items.price} image={items.bigimage}/>
       ))}
     </div>)}
   </div>
