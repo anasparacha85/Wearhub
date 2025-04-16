@@ -9,12 +9,16 @@ const bodyparser=require('body-parser')
 const server=express();
 server.use(cors());
 server.use(bodyparser.json())
-
+require('dotenv').config
+server.get('/',(req,res)=>{
+    res.status(200).json({Message:"Server started"})
+})
 server.use('/api/auth',Authrouter)
 server.use('/api/Shop',ShopRouter)
 server.use('/api/Cart',CartRouter)
 server.use('/api/Order',OrderRouter)
-dbconnect().then(()=>{server.listen(5000,()=>{
+const port =process.env.PORT || 5000
+dbconnect().then(()=>{server.listen(port,()=>{
     console.log('server started');
     
     

@@ -28,7 +28,7 @@ const MainmensColection = () => {
 
     {/* Product Grid */}
     {isLoading?(<div className='flex justify-center items-center mt-40'><ClipLoader color='white' size={50} loading={isLoading}/></div>): (
-    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
+    <div className="md:grid flex flex-col md:grid-cols-3 gap-8 w-full mx-auto">
       {products.map((items) => (
         <Card key={items._id} title={items.name} id={items._id}  category={items.Category} price={items.price} image={items.bigimage}/>
       ))}

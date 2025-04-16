@@ -53,7 +53,7 @@ const WomensCollection = () => {
       </aside>
 
       {/* Product Grid */}
-      <main className="w-full md:w-3/4 p-4">
+      <main className="w-full md:w-3/4 md:p-4">
         <div className="flex justify-between items-center mb-4 text-white">
           <p>Showing 1–9 of 108 results</p>
           <select className="border rounded p-2 bg-black text-white">
