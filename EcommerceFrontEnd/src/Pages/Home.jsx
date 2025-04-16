@@ -90,7 +90,7 @@ const fetchpopular=()=>{
     </section>
     <div  data-aos="fade-down"
      data-aos-easing="linear"
-     data-aos-duration="1500" className="desc flex justify-between lg:h-72 w-screen  pl-20 pr-20 md:h-40 sm:h-36 mt-20" style={{  backgroundColor: 'rgb(48, 46, 46)'}}>
+     data-aos-duration="1500" className="desc flex md:flex-row flex-col md:justify-between lg:h-72 w-screen  md:pl-20 pl-4 pr-4 md:pr-20 md:h-40 sm:h-36 mt-20" style={{  backgroundColor: 'rgb(48, 46, 46)'}}>
         <Dsc number="01" title="Order Online" description="Share some details here. This is Flexible section where you can share anything you want." />
         <Dsc number="02" title="Free Shipping" description="Share some details here. This is Flexible section where you can share anything you want."/>
         <Dsc number="03" title="More Freshness" description="Share some details here. This is Flexible section where you can share anything you want."/>
