@@ -31,7 +31,7 @@ const Card = ({ image, title, price, category ,sizes= ["XL", "L", "M", "S", "XS"
   }
  
   return (
-    <div className="bg-gray-950 rounded-lg shadow-md p-4 w-[130%] md:w-auto"data-aos="zoom-in-left  " data-aos-duration="3000" >
+    <div className="bg-gray-950 rounded-lg shadow-md p-4  w-auto"data-aos="zoom-in-left  " data-aos-duration="3000" >
       <img
         src={image}
         alt={title}
