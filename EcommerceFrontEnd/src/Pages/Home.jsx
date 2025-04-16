@@ -7,12 +7,14 @@ import { Link } from 'react-router-dom';
 import Shopees from '../Components/Shopees';
 import Dsc from '../Components/Dsc';
 import mancamera from '../../public/mancamera.jpg'
+import { base_URL } from '../Slices/ProductSlice';
 export const Home = () => {
   const image='https://www.gulahmedshop.com/media/wysiwyg/2024/01_banners/11_19/2024_11_19_salt_wb.jpg';
   const [popular, setpopular] = useState([])
   const [trending, settrending] = useState([])
+
 const fetchpopular=()=>{
-        fetch('http://localhost:5000/api/Shop/Wearhubpopular',{
+        fetch(`${base_URL}/api/Shop/Wearhubpopular`,{
             method:'GET',
         }).then((res)=>{
             return res.json()
@@ -24,7 +26,7 @@ const fetchpopular=()=>{
     }
 
     const fetchtrending=()=>{
-      fetch('http://localhost:5000/api/Shop/TopTrending',{
+      fetch(`${base_URL}/api/Shop/TopTrending`,{
           method:'GET',
       }).then((res)=>{
           return res.json()
@@ -52,7 +54,7 @@ const fetchpopular=()=>{
     
   return (
     
-    <div>
+    <div className='overflow-x-hidden'>
         <ImageSlider />
       
     <div id='hello' className=' h-[730px] w-screen flex justify-between ' data-aos="flip-up " style={{backgroundImage:image}}

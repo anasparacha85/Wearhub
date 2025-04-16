@@ -45,7 +45,7 @@ const ImageSlider = () => {
         <img
           src={images[currentIndex]}
           alt={`Slide ${currentIndex}`}
-          className="w-full h-[650px] object-cover transition-transform duration-500"
+          className="md:w-full w-screen h-[650px]  object-cover  transition-transform duration-500"
         />
       </div>
 
