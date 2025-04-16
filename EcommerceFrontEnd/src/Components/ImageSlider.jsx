@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
-
+import cover from '../../public/cover.jpg'
+import cover2 from "../../public/cover2.png"
+import cover3 from "../../public/cover3.jpg"
+import cover4 from  "../../public/cover4.jpg"
 
 const ImageSlider = () => { 
   const images = [
-    "../../public/cover.jpg",
-    "../../public/cover2.png",
-   "../../public/cover3.jpg",
-  "../../public/cover4.jpg",
+    cover,cover2,cover3,cover4
   ];
 
   const [currentIndex, setCurrentIndex] = useState(0);
