@@ -13,7 +13,7 @@ const shopItems=async(req,res)=>{
 }
 const popularItems=async(req,res)=>{
     try {
-        const shopdata=await popularmodel.find({});
+        const shopdata=await ShopModel.find({isPopular:true});
        
         // console.log(shopdata);
         
@@ -25,7 +25,7 @@ const popularItems=async(req,res)=>{
 }
 const toptrendingItems=async(req,res)=>{
     try {
-        const shopdata=await TopTrendingModel.find({});
+        const shopdata=await ShopModel.find({isTrending:true});
        
         // console.log(shopdata);
         

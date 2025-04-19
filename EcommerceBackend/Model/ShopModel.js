@@ -39,6 +39,14 @@ bigimage:{
     description:{
         type:String,
         require:true
+    },
+    isPopular:{
+        type:Boolean,
+        default:false
+    },
+    isTrending:{
+        type:Boolean,
+        default:false
     }
    
 })

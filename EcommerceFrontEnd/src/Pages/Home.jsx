@@ -86,7 +86,7 @@ const fetchpopular=()=>{
       <h2 className="text-3xl font-bold text-center mb-8 text-gray-300">WearHub's Popular</h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-8  ">
         {popular.map((items) => (
-          <Card key={items._id} title={items.name} category={items.Category} price={items.price} image={items.bigimage} />
+          <Card key={items._id} id={items._id} title={items.name} category={items.Category} price={items.price} image={items.bigimage} />
         ))}
       </div>
     </section>
@@ -104,7 +104,7 @@ const fetchpopular=()=>{
       <h2 className="text-3xl font-bold text-center mb-8 text-gray-300">Top Trending Items</h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-8 ">
       {trending.map((items) => (
-          <Card key={items._id} title={items.name} category={items.Category} price={items.price} image={items.bigimage} />
+          <Card key={items._id} id={items._id} title={items.name} category={items.Category} price={items.price} image={items.bigimage} />
         ))}
       </div>
     </section>
