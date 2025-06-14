@@ -19,6 +19,7 @@
     "mongoose": "^8.9.1",
     "nodemailer": "^6.9.16",
     "nodemon": "^3.1.9",
+    "stripe": "^18.1.0",
     "vercel": "^41.6.0"
   }
 }

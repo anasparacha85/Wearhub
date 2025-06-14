@@ -3,7 +3,8 @@ import { useSelector } from 'react-redux';
 import { base_URL } from '../Slices/ProductSlice';
 import OrderPopup from '../Components/OrderPopup';
 import { toast } from 'react-toastify';
-
+import { loadStripe } from '@stripe/stripe-js';
+const stripepromise=loadStripe('pk_test_51RPSvD4Dr3uM4C0nbSDcUATQJ7jxWaNpeOeSf3T9zJIyeWHAHnAMUTbUmsoA4wAnRbS1bDaFPn5bbYzMosNqMDuq00r0CcKrZr')
 export default function CheckoutPage() {
   const [form, setForm] = useState({
     address: '',
@@ -78,73 +79,82 @@ useEffect(()=>{
   );
 
 },[fetchCart])
+const handlePayment = async (e) => {
+    e.preventDefault();
 
-const placeOrder=(e)=>{
-  e.preventDefault()
-  fetch(`${base_URL}/api/Order/CreateOrder`,{
-    method:'POST',
-    headers:{
-      'Content-Type':'application/json',
-      'Authorization':JwtToken
-    },
-    body:JSON.stringify(form)
-  }).then((res)=>{
-    
-    return res.json()
-  }).then((data)=>{
-    if(data.SuccessMessage){
-      toast.success(data.SuccessMessage)
-      setShowModal(true)
+    if (!form.address || !form.city || !form.phone) {
+      return toast.error('Please fill all fields');
     }
-    if(data.FailureMessage){
-      toast.error(data.FailureMessage)
+
+    try {
+      const res = await fetch(`${base_URL}/api/stripe/create-checkout-session`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: JwtToken,
+        },
+        body: JSON.stringify(form),
+      });
+
+      const data = await res.json();
+      console.log(data);
+
+      if (!data.id) {
+        return toast.error('Something went wrong');
+      }
+      
+
+      const stripe = await stripepromise;
+      console.log(stripe);
+      
+      const result = await stripe.redirectToCheckout({
+        sessionId: data.id,
+      });
+      console.log(result);
+      
+
+      if (result.error) {
+        toast.error(result.error.message);
+      }
+    } catch (error) {
+      console.error(error);
+      toast.error('Payment failed');
     }
-    console.log(data);
-    
-  }).catch((error)=>{
-    console.log(error);
-    toast.error(error.FailureMessage)
-    
-  })
-}
+  };
   return (
     <div className="grid grid-cols-1 md:grid-cols-3 gap-6 p-6 bg-gray-800 min-h-screen">
       {/* Cart Summary */}
       <div className="md:col-span-2 bg-gray-900 rounded-2xl shadow p-6">
         <h2 className="text-xl font-semibold mb-4 text-gray-100">CheckOut Details</h2>
-        {/* Example item - map your actual cart items here */}
-      {cartItems.map((value)=>(
-        <div className="flex items-center flex-col justify-center border-b py-3 text-white">
-        <div className="flex items-center gap-4">
-         
-          <div>
-            <p className="font-medium">{value.productId.name}</p>
-            <p className="text-sm text-gray-500 text-center">:No of Suits {value.Quantity}</p>
+        {cartItems.map((item) => (
+          <div key={item._id} className="flex items-center flex-col justify-center border-b py-3 text-white">
+            <div className="flex items-center gap-4">
+              <div>
+                <p className="font-medium">{item.productId.name}</p>
+                <p className="text-sm text-gray-500 text-center">No of Suits: {item.Quantity}</p>
+              </div>
+            </div>
+            <p className="font-semibold text-gray-200">Rs. {item.TotalPrice}</p>
           </div>
-        </div>
-        <p className="font-semibold text-gray-200">Rs. {value.TotalPrice}</p>
-       
-      </div>
-      ))}
-       <p className='font-bold text-gray-200'>Total Price. {calculateSubtotal()}</p>
-        
-        {/* Repeat above block for each item */}
+        ))}
+        <p className="font-bold text-gray-200 mt-4">Total Price: Rs. {calculateSubtotal()}</p>
       </div>
 
       {/* Checkout Form */}
       <div className="bg-gray-900 rounded-2xl shadow p-6 text-gray-200">
         <h2 className="text-xl font-semibold mb-4">Shipping & Payment</h2>
-        <form onSubmit={placeOrder} className="space-y-4">
-          <input type="text" name="address" placeholder="Address" className="w-full p-3  border rounded-xl text-white" onChange={handleChange} required />
+        <form onSubmit={handlePayment} className="space-y-4">
+          <input type="text" name="address" placeholder="Address" className="w-full p-3 border rounded-xl text-white" onChange={handleChange} required />
           <input type="text" name="city" placeholder="City" className="w-full p-3 border rounded-xl text-white" onChange={handleChange} required />
           <input type="text" name="phone" placeholder="Phone Number" className="w-full p-3 border rounded-xl text-white" onChange={handleChange} required />
 
-         
-
-          <button  type="submit" className="w-full bg-red-600 text-white py-3 rounded-xl font-semibold hover:bg-blue-700 transition">Place Order</button>
+          <button type="submit" className="w-full bg-red-600 text-white py-3 rounded-xl font-semibold hover:bg-blue-700 transition">
+            Pay with Stripe
+          </button>
         </form>
       </div>
-      <OrderPopup ShowModal={ShowModal} setShowModal={setShowModal}/>
+
+      <OrderPopup ShowModal={ShowModal} setShowModal={setShowModal} />
     </div>
   );
 }

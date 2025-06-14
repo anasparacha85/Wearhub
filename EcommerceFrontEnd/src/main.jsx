@@ -20,6 +20,7 @@ import store from './Store/Store.js'
 
 import ProductsDetailRoute from './Pages/ProductRoute/ProductsDetailRoute.jsx'
 import CheckoutPage from './Pages/CheckOut.jsx'
+import PaymentSuccess from './Pages/PaymentSuccess.jsx'
 const router=createBrowserRouter(createRoutesFromElements(
   <Route path='/' element={<App/>}>
   <Route path='' element={<Home/>}/>
@@ -40,6 +41,7 @@ const router=createBrowserRouter(createRoutesFromElements(
   <Route path='/Cart' element={<Cart/>}/>
  <Route path='/Logout' element={<Logout/>}/>
  <Route path='/Checkout' element={<CheckoutPage/>}/>
+ <Route path='/payment-success' element={<PaymentSuccess/>}/>
   </Route>
 ))
 

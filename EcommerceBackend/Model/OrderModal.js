@@ -41,6 +41,10 @@ const OrderSchema=new mongoose.Schema({
     PhoneNumber:{
         type:Number,
 
+    },
+    PaymentStatus:{
+        type:String,
+        enum:["Paid","Not Paid"]
     }
 
 
