@@ -1,7 +1,7 @@
 import { createSlice,createAsyncThunk } from "@reduxjs/toolkit";
 import { act } from "react";
 import { useSelector } from "react-redux";
-export const base_URL = "http://localhost:5000";
+export const base_URL = "https://wearhubbackend.vercel.app";
 
 
 // Fetch men's collection
